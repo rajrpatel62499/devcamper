@@ -1,6 +1,6 @@
 // const fs = require('fs');
 // const bootcamps = JSON.parse(fs.readFileSync('./devcamper_project_resources/_data/bootcamps.json'));
-
+const ErrorResponse = require('../utils/errorResponse');
 const Bootcamp = require('../models/Bootcamp'); 
 
 
@@ -41,12 +41,12 @@ exports.getBootcamp = async (req,res,next) => {
             data: bootcamp
         }
         if (!bootcamp) {
-            response.statusCode = 400; 
-            response.message = 'Not Found';
+            return next(new ErrorResponse(`Bootcamp not found with id of ${req.params.id}`, 404));  
         }
         res.status(response.statusCode).json(response);
     } catch (err) {
-        sendBadRequest(res, err);        
+        // sendBadRequest(res, err);      
+        next(new ErrorResponse(`Bootcamp not found with id of ${req.params.id}`, 404));  
     }
 }
 
