@@ -1,8 +1,7 @@
-
 const express = require('express');
-const dotenv = require('dotenv');
-const morgan = require('morgan');
-const colors = require('colors');
+const dotenv = require('dotenv'); // managing enviornment variables.
+const morgan = require('morgan'); // logging middleware
+const colors = require('colors'); // color in console.
 const connectDB = require('./config/db');
 
 
@@ -15,6 +14,9 @@ connectDB();
 const bootcamps = require('./routes/bootcamps');
 
 const app = express();
+// Body Parser 
+app.use(express.json())
+
 
 // Dev logging middleware 
 if (process.env.NODE_ENV == 'development') {

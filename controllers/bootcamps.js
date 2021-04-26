@@ -1,7 +1,10 @@
 const fs = require('fs');
 const bootcamps = JSON.parse(fs.readFileSync('./devcamper_project_resources/_data/bootcamps.json'));
 
-const response = {
+const Bootcamp = require('../models/Bootcamp'); 
+
+
+let response = {
     statusCode: 400,
     message: 'Not Found',
     data: null
@@ -15,7 +18,7 @@ exports.getBootcamps = (req,res,next) => {
     response.statusCode = 200;
     response.message = 'Success';
     response.data = bootcamps;
-    res.status(200).json(response);
+    res.status(response.statusCode).json(response);
 }
 
 // @desc        Get single bootcamps
@@ -25,17 +28,32 @@ exports.getBootcamp = (req,res,next) => {
     response.statusCode = 200;
     response.message = 'Success';
     response.data = bootcamps.find(x => x._id === req.params.id);
-    res.status(200).json(response);
+    res.status(response.statusCode).json(response);
 }
 
 // @desc        Create new bootcamp
 // @route       POST /api/v1/bootcamps 
 // @access      Private
-exports.createBootcamp = (req,res,next) => {
-    response.statusCode = 201;
-    response.message = 'Success';
-    response.data = `Created bootcamp`;
-    res.status(200).json(response);
+exports.createBootcamp = async (req,res,next) => {
+    
+    try {
+        const bootcamp = await Bootcamp.create(req.body);
+        response = {
+            statusCode: 200, 
+            message: 'Success',
+            data: bootcamp
+        }
+        res.status(response.statusCode).json(response);
+    } catch (error) {
+        response = {
+            statusCode: 400, 
+            message: 'Bad Request',
+            data: error
+        }
+        res.status(response.statusCode).json(response);
+    }
+
+
 }
 
 
@@ -46,7 +64,7 @@ exports.updateBootcamp = (req,res,next) => {
     response.statusCode = 200;
     response.message = 'Success';
     response.data = `Updated bootcamp ${req.params.id}`;
-    res.status(200).json(response);
+    res.status(response.statusCode).json(response);
 }
 
 // @desc        Delete bootcamp
@@ -56,5 +74,5 @@ exports.deleteBootcamp = (req,res,next) => {
     response.statusCode = 200;
     response.message = 'Success';
     response.data = `Deleted bootcamp ${req.params.id}`;
-    res.status(200).json(response);
+    res.status(response.statusCode).json(response);
 }
