@@ -74,21 +74,47 @@ exports.createBootcamp = async (req,res,next) => {
 // @desc        Update bootcamp
 // @route       PUT /api/v1/bootcamps/:id 
 // @access      Private
-exports.updateBootcamp = (req,res,next) => {
-    response.statusCode = 200;
-    response.message = 'Success';
-    response.data = `Updated bootcamp ${req.params.id}`;
-    res.status(response.statusCode).json(response);
+exports.updateBootcamp = async (req,res,next) => {
+
+    try {
+        const bootcamp = await Bootcamp.findByIdAndUpdate(req.params.id, req.body, {
+            new: true,
+            runValidators: true
+        });
+        response = {
+            statusCode: 200, 
+            message: 'Success',
+            data: bootcamp
+        }
+        if (!bootcamp) {
+            response.statusCode = 400; 
+            response.message = 'Not Found';
+        }
+        res.status(response.statusCode).json(response);
+    } catch (err) {
+        sendBadRequest(res,err);
+    }
 }
 
 // @desc        Delete bootcamp
 // @route       DELETE /api/v1/bootcamps/:id 
 // @access      Private
-exports.deleteBootcamp = (req,res,next) => {
-    response.statusCode = 200;
-    response.message = 'Success';
-    response.data = `Deleted bootcamp ${req.params.id}`;
-    res.status(response.statusCode).json(response);
+exports.deleteBootcamp = async (req,res,next) => {
+    try {
+        const bootcamp = await Bootcamp.findByIdAndDelete(req.params.id);
+        response = {
+            statusCode: 200, 
+            message: 'Success',
+            data: bootcamp
+        }
+        if (!bootcamp) {
+            response.statusCode = 400; 
+            response.message = 'Not Found';
+        }
+        res.status(response.statusCode).json(response);
+    } catch (err) {
+        sendBadRequest(res,err);
+    }
 }
 
 function sendBadRequest(res,err) {
