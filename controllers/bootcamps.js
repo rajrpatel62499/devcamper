@@ -1,5 +1,5 @@
-const fs = require('fs');
-const bootcamps = JSON.parse(fs.readFileSync('./devcamper_project_resources/_data/bootcamps.json'));
+// const fs = require('fs');
+// const bootcamps = JSON.parse(fs.readFileSync('./devcamper_project_resources/_data/bootcamps.json'));
 
 const Bootcamp = require('../models/Bootcamp'); 
 
@@ -14,21 +14,40 @@ let response = {
 // @desc        Get all bootcamps
 // @route       GET /api/v1/bootcamps 
 // @access      Public
-exports.getBootcamps = (req,res,next) => {
-    response.statusCode = 200;
-    response.message = 'Success';
-    response.data = bootcamps;
-    res.status(response.statusCode).json(response);
+exports.getBootcamps = async (req,res,next) => {
+    try {
+        const bootcamps = await Bootcamp.find();
+        response = {
+            statusCode: 200, 
+            message: 'Success',
+            data: bootcamps
+        }
+        res.status(response.statusCode).json(response);
+
+    } catch (err) {
+        sendBadRequest(res,err);
+    }
 }
 
 // @desc        Get single bootcamps
 // @route       GET /api/v1/bootcamps/:id 
 // @access      Public
-exports.getBootcamp = (req,res,next) => {
-    response.statusCode = 200;
-    response.message = 'Success';
-    response.data = bootcamps.find(x => x._id === req.params.id);
-    res.status(response.statusCode).json(response);
+exports.getBootcamp = async (req,res,next) => {
+    try {
+        const bootcamp = await Bootcamp.findById(req.params.id);
+        response = {
+            statusCode: 200, 
+            message: 'Success',
+            data: bootcamp
+        }
+        if (!bootcamp) {
+            response.statusCode = 400; 
+            response.message = 'Not Found';
+        }
+        res.status(response.statusCode).json(response);
+    } catch (err) {
+        sendBadRequest(res, err);        
+    }
 }
 
 // @desc        Create new bootcamp
@@ -44,13 +63,8 @@ exports.createBootcamp = async (req,res,next) => {
             data: bootcamp
         }
         res.status(response.statusCode).json(response);
-    } catch (error) {
-        response = {
-            statusCode: 400, 
-            message: 'Bad Request',
-            data: error
-        }
-        res.status(response.statusCode).json(response);
+    } catch (err) {
+        sendBadRequest(res,err);
     }
 
 
@@ -74,5 +88,14 @@ exports.deleteBootcamp = (req,res,next) => {
     response.statusCode = 200;
     response.message = 'Success';
     response.data = `Deleted bootcamp ${req.params.id}`;
+    res.status(response.statusCode).json(response);
+}
+
+function sendBadRequest(res,err) {
+    response = {
+        statusCode: 400, 
+        message: 'Bad Request',
+        data: err
+    }
     res.status(response.statusCode).json(response);
 }
