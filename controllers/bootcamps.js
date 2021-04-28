@@ -1,24 +1,14 @@
 const ErrorResponse = require('../utils/errorResponse');
 const Bootcamp = require('../models/Bootcamp');
 const asyncHandler = require('../middleware/async');
-
-let response = {
-    statusCode: 404,
-    message: 'Not Found',
-    data: null
-}
-
+const { createResponse }  = require('../utils/utils');
 
 // @desc        Get all bootcamps
 // @route       GET /api/v1/bootcamps 
 // @access      Public
 exports.getBootcamps = asyncHandler(async (req, res, next) => {
     const bootcamps = await Bootcamp.find();
-    response = {
-        statusCode: 200,
-        message: 'Success',
-        data: bootcamps
-    }
+    response = createResponse(200, 'Success', bootcamps);
     res.status(response.statusCode).json(response);
 });
 
@@ -27,11 +17,7 @@ exports.getBootcamps = asyncHandler(async (req, res, next) => {
 // @access      Public
 exports.getBootcamp = asyncHandler(async (req, res, next) => {
     const bootcamp = await Bootcamp.findById(req.params.id);
-    response = {
-        statusCode: 200,
-        message: 'Success',
-        data: bootcamp
-    }
+    response = createResponse(200, 'Success', bootcamp);
     if (!bootcamp) {
         return next(new ErrorResponse(`Resource not found with id of ${req.params.id}`, 404));
     }
@@ -45,11 +31,7 @@ exports.getBootcamp = asyncHandler(async (req, res, next) => {
 exports.createBootcamp = asyncHandler(async (req, res, next) => {
 
     const bootcamp = await Bootcamp.create(req.body);
-    response = {
-        statusCode: 200,
-        message: 'Success',
-        data: bootcamp
-    }
+    response = createResponse(200, 'Success', bootcamp);
     res.status(response.statusCode).json(response);
 
 });
@@ -64,11 +46,7 @@ exports.updateBootcamp = asyncHandler(async (req, res, next) => {
         new: true,
         runValidators: true
     });
-    response = {
-        statusCode: 200,
-        message: 'Success',
-        data: bootcamp
-    }
+    response = createResponse(200, 'Success', bootcamp);
     if (!bootcamp) {
         return next(new ErrorResponse(`Resource not found with id of ${req.params.id}`, 404));
     }
@@ -82,11 +60,7 @@ exports.updateBootcamp = asyncHandler(async (req, res, next) => {
 exports.deleteBootcamp = asyncHandler(async (req, res, next) => {
 
     const bootcamp = await Bootcamp.findByIdAndDelete(req.params.id);
-    response = {
-        statusCode: 200,
-        message: 'Success',
-        data: bootcamp
-    }
+    response = createResponse(200, 'Success', bootcamp);
     if (!bootcamp) {
         return next(new ErrorResponse(`Resource not found with id of ${req.params.id}`, 404));
     }
