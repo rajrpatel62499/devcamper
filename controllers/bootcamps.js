@@ -25,7 +25,7 @@ exports.getBootcamps = async (req,res,next) => {
         res.status(response.statusCode).json(response);
 
     } catch (err) {
-        sendBadRequest(res,err);
+        next(err);
     }
 }
 
@@ -41,12 +41,11 @@ exports.getBootcamp = async (req,res,next) => {
             data: bootcamp
         }
         if (!bootcamp) {
-            return next(new ErrorResponse(`Bootcamp not found with id of ${req.params.id}`, 404));  
+            return next(new ErrorResponse(`Resource not found with id of ${req.params.id}`, 404));  
         }
         res.status(response.statusCode).json(response);
     } catch (err) {
-        // sendBadRequest(res, err);      
-        next(new ErrorResponse(`Bootcamp not found with id of ${req.params.id}`, 404));  
+        next(err);  
     }
 }
 
@@ -64,7 +63,7 @@ exports.createBootcamp = async (req,res,next) => {
         }
         res.status(response.statusCode).json(response);
     } catch (err) {
-        sendBadRequest(res,err);
+        next(err);  
     }
 
 
@@ -87,12 +86,11 @@ exports.updateBootcamp = async (req,res,next) => {
             data: bootcamp
         }
         if (!bootcamp) {
-            response.statusCode = 400; 
-            response.message = 'Not Found';
+            return next(new ErrorResponse(`Resource not found with id of ${req.params.id}`, 404));  
         }
         res.status(response.statusCode).json(response);
     } catch (err) {
-        sendBadRequest(res,err);
+        next(err);  
     }
 }
 
@@ -108,20 +106,10 @@ exports.deleteBootcamp = async (req,res,next) => {
             data: bootcamp
         }
         if (!bootcamp) {
-            response.statusCode = 400; 
-            response.message = 'Not Found';
+            return next(new ErrorResponse(`Resource not found with id of ${req.params.id}`, 404));  
         }
         res.status(response.statusCode).json(response);
     } catch (err) {
-        sendBadRequest(res,err);
+        next(err);  
     }
-}
-
-function sendBadRequest(res,err) {
-    response = {
-        statusCode: 400, 
-        message: 'Bad Request',
-        data: err
-    }
-    res.status(response.statusCode).json(response);
 }
