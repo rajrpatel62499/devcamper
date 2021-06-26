@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node server.js",
     "http-server": "nodemon http-server.js",
-    "dev": "nodemon server.js"
+    "dev": "nodemon server.js",
+    "mongoose-scripts": "nodemon mongoose-scripts.js" 
   },
   "author": "Raj Patel",
   "license": "MIT",

@@ -1,0 +1,160 @@
+{
+	"info": {
+		"_postman_id": "415976ca-c9ce-4ad1-9411-0eb0c8888bda",
+		"name": "Dev Camper",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "BootCamps",
+			"item": [
+				{
+					"name": "get all bootcamps",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{ApiUrl}}/api/v1/bootcamps",
+							"host": [
+								"{{ApiUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"bootcamps"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get bootcamp by Distance",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{ApiUrl}}/api/v1/bootcamps/6086a1894769d4726c51f723",
+							"host": [
+								"{{ApiUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"bootcamps",
+								"6086a1894769d4726c51f723"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create New Bootcamp",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": "JSON Type",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "\r\n\t{\r\n        \"name\": \"Devworks Bootcamp 2\",\r\n\t\t\"description\": \"Devworks is a full stack JavaScript Bootcamp located in the heart of Boston that focuses on the technologies you need to get a high paying job as a web developer\",\r\n\t\t\"website\": \"https://devworks.com\",\r\n\t\t\"phone\": \"(111) 111-1111\",\r\n\t\t\"email\": \"enroll@devworks.com\",\r\n\t\t\"address\": \"233 Bay State Rd Boston MA 02215\",\r\n\t\t\"careers\": [\"Web Development\", \"UI/UX\", \"Business\"],\r\n\t\t\"housing\": true,\r\n\t\t\"jobAssistance\": true,\r\n\t\t\"jobGuarantee\": false,\r\n\t\t\"acceptGi\": true\r\n\t}"
+						},
+						"url": {
+							"raw": "{{ApiUrl}}/api/v1/bootcamps",
+							"host": [
+								"{{ApiUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"bootcamps"
+							]
+						},
+						"description": "Add New bootcamp to database. must be authenticated and must be admin\r\n"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Bootcamp",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": "JSON Type",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n        \"careers\": [\r\n            \"Web Development\",\r\n            \"UI/UX\",\r\n            \"Mobile Development\"\r\n        ],\r\n        \"photo\": \"no-photo.jpg\",\r\n        \"housing\": false,\r\n        \"jobAssistance\": true,\r\n        \"jobGuarantee\": false,\r\n        \"acceptGi\": true,\r\n        \"_id\": \"6086a1894769d4726c51f723\",\r\n        \"name\": \"ModernTech Bootcamp\",\r\n        \"description\": \"ModernTech has one goal, and that is to make you a rockstar developer and/or designer with a six figure salary. We teach both development and UI/UX\"\r\n        \r\n    }"
+						},
+						"url": {
+							"raw": "{{ApiUrl}}/api/v1/bootcamps/6086a1894769d4726c51f723",
+							"host": [
+								"{{ApiUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"bootcamps",
+								"6086a1894769d4726c51f723"
+							]
+						},
+						"description": "update single bootcamp in database"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Bootcamp",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{ApiUrl}}/api/v1/bootcamps/6086a7ffd9b0c54c3cd7b888",
+							"host": [
+								"{{ApiUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"bootcamps",
+								"6086a7ffd9b0c54c3cd7b888"
+							]
+						},
+						"description": "delete bootcamp by id from database. only authenticated user"
+					},
+					"response": []
+				},
+				{
+					"name": "get bootcamp in radius",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{ApiUrl}}/api/v1/bootcamps/radius/02118/10",
+							"host": [
+								"{{ApiUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"bootcamps",
+								"radius",
+								"02118",
+								"10"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "CRUD funcationality for bootcampse with pagination, searching, sorting functionality"
+		}
+	]
+}
