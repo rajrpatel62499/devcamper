@@ -1,3 +1,8 @@
-const createResponse = (statusCode, message, data) => { return {statusCode, message, data}};
+exports.createResponse = (statusCode, message, data) => { return {statusCode, message, data}};
 
-module.exports.createResponse = createResponse;
+exports.isNullOrEmpty = (value) => {
+    if (value == null || value == undefined || value == '') {
+        return true;
+    }
+    return false;
+}

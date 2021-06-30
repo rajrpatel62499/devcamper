@@ -34,6 +34,13 @@ const importData = async () => {
     }
 }
 
+/* 
+Database - Database
+Collection - Tabel
+Documents  - tuples
+Fields (key)- Fields (column)
+*/
+// database have mulitple colleciton or table and each table or collection have multiple tuples or documents.
 
 // Delete Data 
 const deleteData = async () => {
