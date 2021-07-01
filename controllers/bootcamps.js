@@ -19,7 +19,10 @@ exports.getBootcamps = asyncHandler(async (req, res, next) => {
     /* Give Support of operators */
     let queryStr = JSON.stringify(reqQuery); /* create query string */
     queryStr = queryStr.replace(/\b(gt|gte|lt|lte|in)\b/g, match => `$${match}`); /* replace operators */
-    finalQuery = Bootcamp.find(JSON.parse(queryStr)); /* Finding resources */
+    finalQuery = Bootcamp.find(JSON.parse(queryStr)).populate({
+        path: 'courses',
+        select: 'title tuition'
+    }); /* Finding resources */
 
     /* Add Select Fields */
     if (req.query.select) {
@@ -117,11 +120,14 @@ exports.updateBootcamp = asyncHandler(async (req, res, next) => {
 // @access      Private
 exports.deleteBootcamp = asyncHandler(async (req, res, next) => {
 
-    const bootcamp = await Bootcamp.findByIdAndDelete(req.params.id);
-    response = util.createResponse(200, bootcamp);
+    const bootcamp = await Bootcamp.findById(req.params.id);
     if (!bootcamp) {
         return next(new ErrorResponse(`Resource not found with id of ${req.params.id}`, 404));
     }
+
+    bootcamp.remove();
+
+    response = util.createResponse(200, bootcamp);
     res.status(response.statusCode).json(response);
 });
 
