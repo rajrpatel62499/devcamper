@@ -66,7 +66,7 @@ exports.getBootcamps = asyncHandler(async (req, res, next) => {
     
     
     const length = bootcamps.length;
-    response = util.createResponse(200, 'Success', {total,length,pagination, data:bootcamps});
+    response = util.createResponse(200, {total,length,pagination, data:bootcamps});
     res.status(response.statusCode).json(response);
 });
 
@@ -75,7 +75,7 @@ exports.getBootcamps = asyncHandler(async (req, res, next) => {
 // @access      Public
 exports.getBootcamp = asyncHandler(async (req, res, next) => {
     const bootcamp = await Bootcamp.findById(req.params.id);
-    response = util.createResponse(200, 'Success', bootcamp);
+    response = util.createResponse(200, bootcamp);
     if (!bootcamp) {
         return next(new ErrorResponse(`Resource not found with id of ${req.params.id}`, 404));
     }
@@ -89,7 +89,7 @@ exports.getBootcamp = asyncHandler(async (req, res, next) => {
 exports.createBootcamp = asyncHandler(async (req, res, next) => {
 
     const bootcamp = await Bootcamp.create(req.body);
-    response = util.createResponse(200, 'Success', bootcamp);
+    response = util.createResponse(200, bootcamp);
     res.status(response.statusCode).json(response);
 
 });
@@ -104,7 +104,7 @@ exports.updateBootcamp = asyncHandler(async (req, res, next) => {
         new: true,
         runValidators: true
     });
-    response = util.createResponse(200, 'Success', bootcamp);
+    response = util.createResponse(200, bootcamp);
     if (!bootcamp) {
         return next(new ErrorResponse(`Resource not found with id of ${req.params.id}`, 404));
     }
@@ -118,7 +118,7 @@ exports.updateBootcamp = asyncHandler(async (req, res, next) => {
 exports.deleteBootcamp = asyncHandler(async (req, res, next) => {
 
     const bootcamp = await Bootcamp.findByIdAndDelete(req.params.id);
-    response = util.createResponse(200, 'Success', bootcamp);
+    response = util.createResponse(200, bootcamp);
     if (!bootcamp) {
         return next(new ErrorResponse(`Resource not found with id of ${req.params.id}`, 404));
     }
@@ -147,7 +147,7 @@ exports.getBootcampInRadius = asyncHandler(async (req, res, next) => {
         location : { $geoWithin : { $centerSphere: [[lng, lat], radius] } }
     });
 
-    let response = util.createResponse(200,'Success', {count:bootcamps.length , data: bootcamps});
+    let response = util.createResponse(200, {count:bootcamps.length , data: bootcamps});
     
     res.status(response.statusCode).send(response);
 
