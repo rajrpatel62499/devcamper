@@ -9,6 +9,7 @@ dotenv.config({ path: './config/config.env'});
 
 // Load Models
 const Bootcamp = require('./models/Bootcamp');   
+const Course = require('./models/Course');   
 
 mongoose.connect(process.env.MONGO_URI, {
     useNewUrlParser: true,
@@ -19,7 +20,7 @@ mongoose.connect(process.env.MONGO_URI, {
 
 // Read JSON files
 const bootcamps = JSON.parse(fs.readFileSync(`${__dirname}/devcamper_project_resources/_data/bootcamps.json`));
-// const courses = JSON.parse(fs.readFileSync(`${__dirname}/devcamper_project_resources/_data/courses.json`));
+const courses = JSON.parse(fs.readFileSync(`${__dirname}/devcamper_project_resources/_data/courses.json`));
 // const reviews = JSON.parse(fs.readFileSync(`${__dirname}/devcamper_project_resources/_data/reviews.json`));
 // const users = JSON.parse(fs.readFileSync(`${__dirname}/devcamper_project_resources/_data/users.json`));
 
@@ -27,6 +28,7 @@ const bootcamps = JSON.parse(fs.readFileSync(`${__dirname}/devcamper_project_res
 const importData = async () => {
     try {
         await Bootcamp.create(bootcamps);
+        await Course.create(courses);
         console.log('Data Imported...'.green.inverse);
         process.exit();
     } catch (error) {
@@ -46,6 +48,7 @@ Fields (key)- Fields (column)
 const deleteData = async () => {
     try {
         await Bootcamp.deleteMany();
+        await Course.deleteMany();
         console.log('Data Destroyed...'.red.inverse);
         process.exit();
     } catch (error) {
@@ -60,4 +63,4 @@ if (process.argv[2] === '-i') {
     deleteData();
 }
 
-console.log(process.argv);
+// console.log(process.argv);
