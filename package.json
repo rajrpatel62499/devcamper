@@ -9,6 +9,9 @@
     "dev": "nodemon server.js",
     "mongoose-scripts": "nodemon mongoose-scripts.js" 
   },
+  "engines": {
+    "node": "14.17.0"
+  },
   "author": "Raj Patel",
   "license": "MIT",
   "dependencies": {
