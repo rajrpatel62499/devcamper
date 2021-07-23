@@ -7,12 +7,14 @@ const errorHandler = require('./middleware/error');
 
 // Load env vars
 dotenv.config({ path: `./config/config.env`});
+// dotenv.config({ path: `./config/prod.config.env`});
+console.log(`PROCESS Enviornment: ${process.env.NODE_ENV}`);
 // connect to database 
 connectDB();
 
 const app = express();
 // Body Parser 
-app.use(express.json())
+app.use(express.json()) /* this middleware convert body to json object */
 
 // Route Files 
 const bootcamps = require('./routes/bootcamps');
@@ -22,6 +24,7 @@ const users = require('./routes/users');
 
 // Dev logging middleware 
 if (process.env.NODE_ENV == 'development') {
+    console.log("Morgan Enabled...");
     app.use(morgan('dev'));
 }
 
@@ -29,8 +32,7 @@ if (process.env.NODE_ENV == 'development') {
 app.use('/api/v1/bootcamps', bootcamps);
 app.use('/api/v1/users',users);
 app.use('/api/v1/courses', courses);
-app.use(errorHandler);
-
+app.use(errorHandler); /* Put it last to handle if any errors from any route occurs  */
 
 
 const PORT = process.env.PORT || 5000;
