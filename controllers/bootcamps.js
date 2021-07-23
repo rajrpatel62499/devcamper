@@ -69,7 +69,7 @@ exports.getBootcamps = asyncHandler(async (req, res, next) => {
     
     
     const length = bootcamps.length;
-    response = util.createResponse(200, {total,length,pagination, data:bootcamps});
+    response = util.createResponse(200, {total,length,pagination, data:bootcamps, testKey: 'testKey for pipeline'});
     res.status(response.statusCode).json(response);
 });
 
